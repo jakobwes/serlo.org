@@ -5,7 +5,7 @@
 # location of the current serlo database dump
 export dump_location ?= gs://serlo_dev_terraform/sql-dumps/dump-2019-05-13.zip
 
-athene2_host ?= https://dev.serlo.local/
+athene2_host ?= https://de.serlo.local
 
 # set the appropriate docker environment
 ifeq ($(env_name),minikube)
@@ -48,6 +48,9 @@ build_images:
 	for build in packages/server/docker/*; do \
 		$(MAKE) -C $$build build_image || exit 1; \
 	done
+	for build in $(infrastructure_repository)/container/*/; do \
+		$(MAKE) -C $$build build_image || exit 1;
+	done
 
 .PHONY: build_images_forced
 .ONESHELL:
@@ -57,6 +60,10 @@ build_images_forced:
 	for build in packages/server/docker/*; do \
 		$(MAKE) -C $$build docker_build || exit 1;
 	done
+	for build in $(infrastructure_repository)/container/*/; do \
+		$(MAKE) -C $$build docker_build || exit 1;
+	done
+
 # download the database dump
 tmp/dump.zip:
 	mkdir -p tmp
