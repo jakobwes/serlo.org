@@ -67,3 +67,5 @@ dist-gcf
 
 # Docker Compose file
 docker-compose.yml
+
+tmp/
