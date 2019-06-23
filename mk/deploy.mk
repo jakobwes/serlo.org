@@ -45,7 +45,9 @@ terraform_apply: terraform_init
 # build docker images for local dependencies in the cluster
 build_images:
 	@eval "$(DOCKER_ENV)"
+	docker run --rm -v $(pwd):/home/circleci/src -w /home/circleci/src circleci/node:10 sh -c 'sudo yarn --frozen-lockfile'
 	$(MAKE) -C packages/public/editor-renderer  build_image
+	$(MAKE) -C packages/public/legacy-editor-renderer  build_image
 	for build in packages/public/server/docker/*; do \
 		$(MAKE) -C $$build build_image || exit 1; \
 	done
@@ -58,6 +60,8 @@ build_images:
 # build docker images for local dependencies in the cluster
 build_images_forced:
 	@eval "$(DOCKER_ENV)"
+	$(MAKE) -C packages/public/editor-renderer docker_build
+	$(MAKE) -C packages/public/legacyeditor-renderer  docker_build
 	for build in packages/public/server/docker/*; do \
 		$(MAKE) -C $$build docker_build || exit 1;
 	done

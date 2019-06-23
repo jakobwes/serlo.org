@@ -47,7 +47,8 @@ project_deploy: build_images terraform_apply provide_athene2_content
 
 .PHONY: project_launch
 # launch the athene2 web site
-project_launch:
+project_launch: kubectl_use_context
+	until kubectl logs $$(kubectl get pods --namespace athene2 | grep athene2-app | awk '{ print $$1 }') -c athene2-php-container --namespace athene2 | grep "GET /index.php. 200" ; do echo wait for athene2-app to be ready ; sleep 10 ; done
 	xdg-open $(athene2_host)/ 2>/dev/null >/dev/null &
 
 # COLORS
