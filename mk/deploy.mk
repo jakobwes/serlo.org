@@ -45,6 +45,7 @@ terraform_apply: terraform_init
 # build docker images for local dependencies in the cluster
 build_images:
 	@eval "$(DOCKER_ENV)"
+	$(MAKE) -C packages/public/editor-renderer  build_image
 	for build in packages/public/server/docker/*; do \
 		$(MAKE) -C $$build build_image || exit 1; \
 	done
