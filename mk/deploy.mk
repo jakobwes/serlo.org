@@ -45,7 +45,7 @@ terraform_apply: terraform_init
 # build docker images for local dependencies in the cluster
 build_images:
 	@eval "$(DOCKER_ENV)"
-	for build in packages/server/docker/*; do \
+	for build in packages/public/server/docker/*; do \
 		$(MAKE) -C $$build build_image || exit 1; \
 	done
 	for build in $(infrastructure_repository)/container/*/; do \
@@ -57,7 +57,7 @@ build_images:
 # build docker images for local dependencies in the cluster
 build_images_forced:
 	@eval "$(DOCKER_ENV)"
-	for build in packages/server/docker/*; do \
+	for build in packages/public/server/docker/*; do \
 		$(MAKE) -C $$build docker_build || exit 1;
 	done
 	for build in $(infrastructure_repository)/container/*/; do \
