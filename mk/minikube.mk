@@ -10,7 +10,7 @@ project_start: minikube_start project_launch
 
 .PHONY: minikube_start
 minikube_start:
-	$(MAKE) -C $(infrastructure_repository)/minikube/atehen2 minikube_start
+	$(MAKE) -C $(infrastructure_repository)/minikube/athene2 minikube_start
 
 .PHONY:
 minikube_create:
