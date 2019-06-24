@@ -35,6 +35,7 @@ include mk/help.mk
 include mk/test.mk
 include mk/deploy.mk
 include mk/tools.mk
+include mk/build.mk
 
 # forbid parallel building of prerequisites
 .NOTPARALLEL:

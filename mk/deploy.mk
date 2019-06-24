@@ -40,34 +40,6 @@ terraform_apply: terraform_init
 	fi
 	$(MAKE) -C $(infrastructure_repository)/$(env_folder) terraform_apply
 
-.PHONY: build_images
-.ONESHELL:
-# build docker images for local dependencies in the cluster
-build_images:
-	$(MAKE) -C packages/public/editor-renderer  build_image
-	$(MAKE) -C packages/public/legacy-editor-renderer  build_image
-	@eval "$(DOCKER_ENV)"
-	for build in packages/public/server/docker/*; do \
-		$(MAKE) -C $$build build_image || exit 1; \
-	done
-	for build in $(infrastructure_repository)/container/*/; do \
-		$(MAKE) -C $$build build_image || exit 1;
-	done
-
-.PHONY: build_images_forced
-.ONESHELL:
-# build docker images for local dependencies in the cluster
-build_images_forced:
-	$(MAKE) -C packages/public/editor-renderer docker_build
-	$(MAKE) -C packages/public/legacy-editor-renderer  docker_build
-	@eval "$(DOCKER_ENV)"
-	for build in packages/public/server/docker/*; do \
-		$(MAKE) -C $$build docker_build || exit 1;
-	done
-	for build in $(infrastructure_repository)/container/*/; do \
-		$(MAKE) -C $$build docker_build || exit 1;
-	done
-
 # download the database dump
 tmp/dump.zip:
 	mkdir -p tmp
@@ -85,3 +57,4 @@ provide_athene2_content: tmp/dump.sql
 	bash scripts/setup-athene2-db.sh
 
 .NOTPARALLEL:
+
