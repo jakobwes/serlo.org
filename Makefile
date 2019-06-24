@@ -43,7 +43,7 @@ include mk/build.mk
 
 .PHONY: project_deploy
 # deploy the project to an already running cluster
-project_deploy: build_images terraform_apply provide_athene2_content
+project_deploy: build terraform_apply provide_athene2_content
 
 
 .PHONY: project_launch

@@ -13,5 +13,7 @@ FROM dependencies as release
 COPY packages/public/legacy-editor-renderer packages/public/legacy-editor-renderer
 COPY packages/private/markdown packages/private/markdown
 WORKDIR packages/public/legacy-editor-renderer
+run yarn --prod
+
 ENTRYPOINT node .
 EXPOSE 3000

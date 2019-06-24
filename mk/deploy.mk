@@ -35,9 +35,7 @@ terraform_plan: terraform_init
 .PHONY: terraform_apply
 # apply the terraform provisoining in the cluster
 terraform_apply: terraform_init
-	if [[ "$$env_name" == "minikube" ; then \
-	$(MAKE) build_images; \
-	fi
+	if [[ "$$env_name" == "minikube" ]] ; then $(MAKE) build_images; fi
 	$(MAKE) -C $(infrastructure_repository)/$(env_folder) terraform_apply
 
 # download the database dump

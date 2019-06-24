@@ -9,8 +9,8 @@ tools_container_log_%:
 
 .PHONY: tools_dbsetup_log
 # show the athene2 content provider log
-tools_dbsetup_log: kubectl_usecontext
-	kubectl logs $$(kubectl get pods --namespace kpi | grep dbsetup | awk '{ print $$1 }') --all-containers=true --namespace kpi --follow
+tools_dbsetup_log: kubectl_use_context
+	kubectl logs $$(kubectl get pods --namespace athene2 | grep dbsetup | awk '{ print $$1 }') --all-containers=true --namespace athene2 --follow
 
 .PHONY: tools_athene2_app_log
 # show the httpd log

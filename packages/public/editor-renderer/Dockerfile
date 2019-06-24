@@ -12,10 +12,10 @@ FROM base as dependencies
 RUN yarn --frozen-lockfile --prod
 
 FROM dependencies as release
-COPY packages/private/legacy-editor-to-editor packages/private/legacy-editor-to-editor
-COPY packages/private/markdown packages/private/markdown
-COPY packages/private/editor-helpers packages/private/editor-helpers
-COPY packages/public/editor-renderer packages/public/editor-renderer
+COPY packages/private/legacy-editor-to-editor/* packages/private/legacy-editor-to-editor/
+COPY packages/private/markdown/* packages/private/markdown/
+COPY packages/private/editor-helpers/* packages/private/editor-helpers/
+COPY packages/public/editor-renderer/* packages/public/editor-renderer/
 WORKDIR packages/public/editor-renderer
 ENTRYPOINT node .
 EXPOSE 3000
