@@ -10,82 +10,109 @@ vars:
 
 tasks:
   all:
-    desc: build required minikube images if images are not yet available
+    desc: |
+      *
+        - build required minikube images if images are not yet available
     deps: [dbsetup, dbdump, httpd, php, editor, legacy_editor]
 
   all_forced:
-    desc: build each image even when image is available
+    desc: |
+      *
+        - build each image even when image is available
     deps: [dbsetup_forced, dbdump_forced, httpd_forced, php_forced, editor_forced, legacy_editor_forced]
 
   dbsetup:
-    desc: build dbsetup image only if image is not already available
+    desc: |
+      *
+        - build dbsetup image only if image is not already available
     cmds:
       - task: dbsetup_forced 
     status:
       - eval $(minikube docker-env) && docker images | grep {{ .dbsetup_image }}
 
   dbsetup_forced:
-    desc: build dbsetup image even when image is available
+    desc: |
+      *
+        - build dbsetup image even when image is available
     cmds:
     - eval $(minikube docker-env) && cd ../infrastructure/container/dbsetup && docker build -f Dockerfile -t serlo/{{.dbsetup_image}} .
 
   dbdump:
-    desc: build dbdump image only if image is not already available
+    desc: |
+      *
+        - build dbdump image only if image is not already available
     cmds:
       - task: dbdump_forced 
     status:
       - eval $(minikube docker-env) && docker images | grep {{ .dbdump_image }}
 
   dbdump_forced:
-    desc: build dbdump image even when image is available
+    desc: |
+      *
+        - build dbdump image even when image is available
     cmds:
     - eval $(minikube docker-env) && cd ../infrastructure/container/dbsetup && docker build -f Dockerfile -t serlo/{{.dbdump_image}} .
 
   httpd:
-    desc: build httpd image only if image is not already available
+    desc: |
+      *
+        - build httpd image only if image is not already available
     cmds:
       - task:  httpd_forced
     status:
       - eval $(minikube docker-env) && docker images | grep {{ .httpd_image }}
 
   httpd_forced:
-    desc: build httpd docker image even when image is available
+    desc: |
+      *
+        - build httpd docker image even when image is available
     cmds:
     - eval $(minikube docker-env) && cd packages/public/server && docker build -f docker/httpd/Dockerfile -t serlo/{{.httpd_image}} .
 
   php:
-    desc: build php image only if image is not already available
+    desc: |
+      *
+        - build php image only if image is not already available
     cmds:
       - task: php_forced
     status:
       - eval $(minikube docker-env) && docker images | grep {{ .php_image }}
 
   php_forced:
-    desc: build php docker image even when image is available
+    desc: |
+      *
+        - build php docker image even when image is available
     cmds:
       - eval $(minikube docker-env) && cd packages/public/server && docker build -f docker/php/Dockerfile -t serlo/{{.php_image}} .
 
   editor:
-    desc: build editor renderer image only if image is not already available
+    desc: |
+      *
+        - build editor renderer image only if image is not already available
     cmds:
       - task: editor_forced
     status:
       - eval $(minikube docker-env) && docker images | grep ${{ .editor_image }}
 
   editor_forced:
-    desc: build editor renderer forced even when image is available 
+    desc: |
+      *
+        - build editor renderer forced even when image is available 
     cmds:
       - eval $(minikube docker-env) && docker build -f packages/public/editor-renderer/Dockerfile -t serlo/{{.editor_image}} .
   
   legacy_editor:
-    desc: legacy editor renderer only if image is not already available
+    desc: |
+      *
+        - legacy editor renderer only if image is not already available
     cmds:
       - task: legacy_editor_forced
     status:
       - eval $(minikube docker-env) && docker images | grep {{ .legacy_editor_image }}
 
   legacy_editor_forced:
-    desc: build legacy_editor renderer forced even when image is available 
+    desc: |
+      *
+        - build legacy_editor renderer forced even when image is available 
     cmds:
     - eval $(minikube docker-env) && docker build -f packages/public/legacy-editor-renderer/Dockerfile -t serlo/{{.legacy_editor_image}} .
-
