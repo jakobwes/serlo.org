@@ -1,17 +1,16 @@
 version: 2
 
 vars:
-  env_name: dev
-  gcloud_env_name: serlo_dev
-  env_dir: ../infrastructure/live/dev
   dump_location: gs://serlo_dev_terraform/sql-dumps/dump-2019-05-13.zip
   athene2_host: https://de.serlo.local/mathe
+  env_name: minikube
+  env_dir: ../infrastructure/minikube/athene2
 
 includes:
   build:     tasks/build.yml
   log:       tasks/log.yml
-  cluster:   ../infrastructure/tasks/cluster_gcloud.yml
-  terraform: ../infrastructure/tasks/terraform_gcloud.yml
+  cluster:  ../infrastructure/tasks/cluster_minikube.yml
+  terraform: ../infrastructure/tasks/terraform_minikube.yml
   project:   tasks/project.yml
 
 tasks:
