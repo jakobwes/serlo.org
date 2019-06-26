@@ -41,7 +41,7 @@ build_php_forced:
 	@eval $$(minikube docker-env) && \
 		cd packages/public/server && docker build -f docker/php/Dockerfile -t serlo/$(php_image) .
 
-editor_image=athene2-editor-renderer
+editor_image=editor-renderer
 
 .PHONY: build_editor
 # build editor renderer image only if image is not already available
@@ -55,7 +55,7 @@ build_editor_forced:
 	@eval $$(minikube docker-env) && \
 		docker build -f packages/public/editor-renderer/Dockerfile -t serlo/$(editor_image) .
 
-legacy_editor_image=athene2-legacy-editor-renderer
+legacy_editor_image=legacy-editor-renderer
 
 .PHONY: build_legacy_editor
 # build legacy editor renderer only if image is not already available
