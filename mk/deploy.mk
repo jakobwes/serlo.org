@@ -5,16 +5,16 @@
 # location of the current serlo database dump
 export dump_location ?= gs://serlo_dev_terraform/sql-dumps/dump-2019-05-13.zip
 
-athene2_host ?= https://de.serlo.local
-
 # set the appropriate docker environment
 ifeq ($(env_name),minikube)
 	DOCKER_ENV ?= $(shell minikube docker-env)
 	env_folder = minikube/athene2
+	athene2_host ?= https://de.serlo.local
 else
     ifeq ($(env_name),dev)
     	DOCKER_ENV ?= ""
     	env_folder = live/dev
+	athene2_host ?= https://de.serlo-development.dev/mathe
     else
         ifneq ($(subst help,,$(MAKECMDGOALS)),)
     		$(error only env_name [minikube,dev] are supported)
