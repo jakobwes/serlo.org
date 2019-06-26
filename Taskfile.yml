@@ -4,6 +4,7 @@ vars:
   dump_location: gs://serlo_dev_terraform/sql-dumps/dump-2019-05-13.zip
   athene2_host: https://de.serlo.local/mathe
   env_name: minikube
+  #env_name: gcloud
   env_dir: ../infrastructure/minikube/athene2
 
 includes:
@@ -11,6 +12,8 @@ includes:
   log:       tasks/log.yml
   cluster:  ../infrastructure/tasks/cluster_minikube.yml
   terraform: ../infrastructure/tasks/terraform_minikube.yml
+  #cluster:  ../infrastructure/tasks/cluster_{{ .env_name }}.yml
+  #terraform: ../infrastructure/tasks/terraform_{{ .env_name }}.yml
   project:   tasks/project.yml
 
 tasks:
