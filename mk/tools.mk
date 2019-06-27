@@ -6,7 +6,7 @@
 # show the log for a specific container common implementation
 tools_container_log_%:
 	for pod in $$(kubectl get pods --namespace athene2 | grep ^$* | awk '{ print $$1 }') ; do \
-		kubectl logs $$pod --all-containers=true --namespace athene2 | sed "s/^/$$pod/"; \
+		kubectl logs $$pod --all-containers=true --namespace athene2 | sed "s/^/$$pod\ /"; \
 	done
 
 .PHONY: tools_dbsetup_log
