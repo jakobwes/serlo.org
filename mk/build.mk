@@ -33,6 +33,7 @@ php_image=athene2-php
 .PHONY: build_php_image
 # build php image only if image is not already available
 build_php:
+	@eval $$(minikube docker-env) && \
 	docker images | grep $(php_image) && echo "image $(php_image) already exists use build_image_forced" || $(MAKE) build_php_forced
 
 .PHONY: build_php_forced
@@ -46,6 +47,7 @@ editor_image=editor-renderer
 .PHONY: build_editor
 # build editor renderer image only if image is not already available
 build_editor:
+	@eval $$(minikube docker-env) && \
 	docker images | grep $(editor_image) && echo "image $(editor_image) already exists use build_editor_forced" || $(MAKE) build_editor_forced
 
 .PHONY: build_editor_forced
@@ -60,6 +62,7 @@ legacy_editor_image=legacy-editor-renderer
 .PHONY: build_legacy_editor
 # build legacy editor renderer only if image is not already available
 build_legacy_editor:
+	@eval $$(minikube docker-env) && \
 	docker images | grep $(legacy_editor_image) && echo "image $(legacy_editor_image) already exists use build_legacy_editor_forced" || $(MAKE) build_legacy_editor_forced
 
 .PHONY: build_legacy_editor_forced

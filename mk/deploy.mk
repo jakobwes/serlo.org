@@ -48,7 +48,7 @@ tmp/dump.zip:
 
 # unzip database dump
 tmp/dump.sql: tmp/dump.zip
-	unzip $< -d tmp
+	unzip $< -o -d tmp
 	touch $@
 
 .PHONY: provide_athene2_content
