@@ -22,5 +22,6 @@ if kubectl exec -it $pod $kubectl_args -- ls -l /tmp/dump.sql >/dev/null 2>/dev/
     echo "sql dump already present in dbsetup-cronjob"
 else
     echo "copy sql dump [$dump_file] to pod [$pod] args [$kubectl_args]"
-    kubectl cp $dump_file $pod:/tmp/dump.sql $kubectl_args 
+    kubectl cp $dump_file $pod:/tmp/dump_new.sql $kubectl_args 
+    kubectl exec -it $pod --namespace athene2 -- /bin/sh -c "mv /tmp/dump_new.sql /tmp/dump.sql"
 fi

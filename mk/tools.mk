@@ -2,26 +2,30 @@
 # Various utilities
 #
 
-.PHONY: tools_container_log_%
+.PHONY: log_container_%
 # show the log for a specific container common implementation
-tools_container_log_%:
+log_container_%:
 	for pod in $$(kubectl get pods --namespace athene2 | grep ^$* | awk '{ print $$1 }') ; do \
 		kubectl logs $$pod --all-containers=true --namespace athene2 | sed "s/^/$$pod\ /"; \
 	done
 
-.PHONY: tools_dbsetup_log
+.PHONY: log_dbsetup
 # show the athene2 content provider log
-tools_dbsetup_log: kubectl_use_context
+log_dbsetup: kubectl_use_context
 	kubectl logs $$(kubectl get pods --namespace athene2 | grep dbsetup | awk '{ print $$1 }') --all-containers=true --namespace athene2 --follow
 
-.PHONY: tools_athene2_app_log
+.PHONY: log_athene2_app
 # show the httpd log
-tools_athene2_app_log: kubectl_use_context tools_container_log_athene2-app
+log_athene2_app: kubectl_use_context log_container_athene2-app
 
-.PHONY: tools_editor_log
+.PHONY: log_editor
 # show the editor log
-tools_editor_log: kubectl_use_context tools_container_log_editor-renderer
+log_editor: kubectl_use_context log_container_editor-renderer
 
-.PHONY: tools_legacy_editor_log
+.PHONY: log_legacy_editor
 # show the editor log
-tools_legacy_editor_log: kubectl_use_context tools_container_log_legacy-editor-renderer
+log_legacy_editor: kubectl_use_context log_container_varnish
+
+.PHONY: log_varnish
+# show the editor log
+log_varnish: kubectl_use_context log_container_varnish

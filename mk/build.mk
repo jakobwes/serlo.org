@@ -5,6 +5,7 @@ build: build_httpd build_php build_editor build_legacy_editor
 	@eval $$(minikube docker-env)
 	$(MAKE) -C $(infrastructure_repository)/container/dbsetup build_image
 	$(MAKE) -C $(infrastructure_repository)/container/dbdump build_image
+	$(MAKE) -C $(infrastructure_repository)/container/varnish build_image
 
 .PHONY: build_forced
 .ONESHELL:
@@ -13,6 +14,7 @@ build_forced: build_httpd_forced build_php_forced build_editor_forced build_lega
 	@eval $$(minikube docker-env)
 	$(MAKE) -C $(infrastructure_repository)/container/dbsetup docker_build
 	$(MAKE) -C $(infrastructure_repository)/container/dbdump docker_build
+	$(MAKE) -C $(infrastructure_repository)/container/varnish docker_build
 
 httpd_image=athene2-httpd
 

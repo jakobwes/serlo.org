@@ -48,13 +48,16 @@ tmp/dump.zip:
 
 # unzip database dump
 tmp/dump.sql: tmp/dump.zip
-	unzip $< -o -d tmp
-	touch $@
+	rm -f tmp/dump.sql
+	unzip $< -d tmp
 
 .PHONY: provide_athene2_content
 # upload the current database dump to the content provider container
 provide_athene2_content: tmp/dump.sql
 	bash scripts/setup-athene2-db.sh
+
+deploy_dbsetup: kubectl_use_context
+	kubectl patch deployment dbsetup-cronjob --namespace athene2  -p "{\"spec\": {\"template\": {\"metadata\": { \"labels\": {  \"redeploy\": \"$$(date +%s)\"}}}}}"
 
 .NOTPARALLEL:
 
