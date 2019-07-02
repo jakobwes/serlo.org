@@ -37,8 +37,11 @@ include mk/build.mk
 
 .PHONY: project_deploy
 # deploy the project to an already running cluster
-project_deploy: build terraform_apply provide_athene2_content
-
+ifeq ($(env_name),minikube)
+project_deploy: build_minikube terraform_apply provide_athene2_content
+else 
+project_deploy: terraform_apply provide_athene2_content
+endif
 
 .PHONY: project_launch
 # launch the athene2 web site
