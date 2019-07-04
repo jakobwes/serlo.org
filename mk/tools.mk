@@ -4,7 +4,7 @@
 
 .PHONY: log_container_%
 # show the log for a specific container common implementation
-log_container_%:
+log_container_%: kubectl_use_context
 	for pod in $$(kubectl get pods --namespace athene2 | grep ^$* | awk '{ print $$1 }') ; do \
 		kubectl logs $$pod --all-containers=true --namespace athene2 | sed "s/^/$$pod\ /"; \
 	done
@@ -12,7 +12,7 @@ log_container_%:
 .PHONY: log_dbsetup
 # show the athene2 content provider log
 log_dbsetup: kubectl_use_context
-	kubectl logs $$(kubectl get pods --namespace athene2 | grep dbsetup | awk '{ print $$1 }') --all-containers=true --namespace athene2 --follow
+	kubectl logs $$(kubectl get pods --namespace athene2 | grep dbsetup | awk '{ print $$1 }') --namespace athene2 --follow
 
 .PHONY: log_athene2_app
 # show the httpd log

@@ -5,6 +5,7 @@
 # location of the current serlo database dump
 export dump_location ?= gs://serlo_dev_terraform/sql-dumps/dump-2019-05-13.zip
 
+resource_dbsetup = module.athene2_dbsetup.kubernetes_deployment.dbsetup-cronjob
 
 # set the appropriate docker environment
 ifeq ($(env_name),minikube)
@@ -31,12 +32,12 @@ terraform_init:
 
 .PHONY: terraform_plan
 # plan the terraform provisioning in the cluster
-terraform_plan: terraform_init
+terraform_plan: 
 	$(MAKE) -C $(infrastructure_repository)/$(env_folder) terraform_plan
 
 .PHONY: terraform_apply
 # apply the terraform provisoining in the cluster
-terraform_apply: terraform_init
+terraform_apply:
 	if [[ "$$env_name" == "minikube" ]] ; then $(MAKE) build_images; fi
 	$(MAKE) -C $(infrastructure_repository)/$(env_folder) terraform_apply
 
@@ -56,8 +57,11 @@ tmp/dump.sql: tmp/dump.zip
 provide_athene2_content: tmp/dump.sql
 	bash scripts/setup-athene2-db.sh
 
-deploy_dbsetup: kubectl_use_context
-	kubectl patch deployment dbsetup-cronjob --namespace athene2  -p "{\"spec\": {\"template\": {\"metadata\": { \"labels\": {  \"redeploy\": \"$$(date +%s)\"}}}}}"
+
+.PHONY: deploy_dbsetup
+# force the deployment of the dbsetup cronjob
+deploy_dbsetup:
+	cd $(infrastructure_repository)/$(env_folder) && terraform taint $(resource_dbsetup) && $(MAKE) terraform_apply
+
 
 .NOTPARALLEL:
-
