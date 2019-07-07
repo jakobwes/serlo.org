@@ -1,22 +1,17 @@
-sharedimages_repository ?= ../infrastructure-images
+script = scripts/docker-setup-minikube.sh
+image_path = eu.gcr.io/serlo-shared
 
-.PHONY: build_minikube
-.ONESHELL:
-# build docker images for local dependencies in the cluster
-build_minikube:
-	@eval $$(minikube docker-env)
-	$(MAKE) build_httpd_minikube build_php_minikube build_editor_minikube build_legacy_editor_minikube
-	$(MAKE) -C $(sharedimages_repository)/container/dbsetup docker_build_minikube
-	$(MAKE) -C $(sharedimages_repository)/container/dbdump docker_build_minikube
-	$(MAKE) -C $(sharedimages_repository)/container/varnish docker_build_minikube
+.PHONY: docker_minikube_setup
+# setup minikube docker with eu.gcr.io docker
+docker_minikube_setup:
+	$(script) $(image_path)/athene2-dbdump-cronjob latest
+	$(script) $(image_path)/athene2-dbsetup-cronjob latest
+	$(script) $(image_path)/varnish latest
+	$(script) $(image_path)/athene2-php latest
+	$(script) $(image_path)/athene2-httpd latest
+	$(script) $(image_path)/editor-renderer latest
+	$(script) $(image_path)/legacy-editor-renderer latest
 
-.PHONY: build
-.ONESHELL:
-# build docker images
-build: build_httpd build_php build_editor build_legacy_editor
-	$(MAKE) -C $(sharedimages_repository)/container/dbsetup docker_build
-	$(MAKE) -C $(sharedimages_repository)/container/dbdump docker_build
-	$(MAKE) -C $(sharedimages_repository)/container/varnish docker_build
 
 httpd_image=athene2-httpd
 

@@ -26,6 +26,7 @@ export terraform_auto_approve=
 endif
 
 include mk/help.mk
+include mk/terraform.mk
 include mk/test.mk
 include mk/deploy.mk
 include mk/tools.mk
@@ -38,7 +39,7 @@ include mk/build.mk
 .PHONY: project_deploy
 # deploy the project to an already running cluster
 ifeq ($(env_name),minikube)
-project_deploy: build_minikube terraform_apply provide_athene2_content
+project_deploy: docker_minikube_setup terraform_apply provide_athene2_content
 else 
 project_deploy: terraform_apply provide_athene2_content
 endif
