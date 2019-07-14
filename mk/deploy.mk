@@ -11,11 +11,9 @@ resource_dbdump = module.athene2_dbdump.kubernetes_deployment.dbdump-cronjob
 # set the appropriate docker environment
 ifeq ($(env_name),minikube)
 	DOCKER_ENV ?= $(shell minikube docker-env)
-	env_folder = minikube/athene2
 	athene2_host ?= https://de.serlo.local
 else
     	DOCKER_ENV ?= ""
-    	env_folder = live/$(env_name)
 endif
 
 ifeq ($(env_name),dev)

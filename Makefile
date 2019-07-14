@@ -19,9 +19,11 @@ export dump_location ?= gs://serlo_dev_terraform/sql-dumps/dump-2019-05-13.zip
 _help: help
 
 ifeq ($(env_name),minikube)
-include mk/minikube.mk
+export env_folder = minikube
 export terraform_auto_approve=-auto-approve
+include mk/minikube.mk
 else
+export env_folder = live/$(env_name)
 include mk/gcloud.mk
 #no auto approve in gcloud dev environment
 export terraform_auto_approve=
