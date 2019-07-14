@@ -26,12 +26,6 @@ ifeq ($(env_name),staging)
 	athene2_host ?= https://de.serlo-staging.dev/mathe
 endif
 
-.PHONY: provide_athene2_content
-# upload the current database dump to the content provider container
-provide_athene2_content: tmp/dump.sql
-	bash scripts/setup-athene2-db.sh
-
-
 .PHONY: deploy_dbsetup
 # force the deployment of the dbsetup cronjob
 deploy_dbsetup:

@@ -69,3 +69,6 @@ dist-gcf
 docker-compose.yml
 
 tmp/
+terraform.tfstate*
+modules
+.terraform/
