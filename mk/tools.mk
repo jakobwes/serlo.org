@@ -11,7 +11,7 @@ log_container_%: kubectl_use_context
 
 .PHONY: log_dbsetup
 # show the athene2 content provider log
-log_dbsetup: log__container_dbsetup
+log_dbsetup: log_container_dbsetup
 
 .PHONY: log_dbsetup
 # show the athene2 content provider log

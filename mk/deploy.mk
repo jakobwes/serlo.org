@@ -27,12 +27,13 @@ endif
 .PHONY: deploy_dbsetup
 # force the deployment of the dbsetup cronjob
 deploy_dbsetup:
-	cd $(infrastructure_repository)/$(env_folder) && terraform taint $(resource_dbsetup) && $(MAKE) terraform_apply
+	cd $(env_folder) && terraform taint $(resource_dbsetup)
+	$(MAKE) terraform_apply
 
 .PHONY: deploy_dbdump
 # force the deployment of the dbdump cronjob
 deploy_dbdump:
-	cd $(infrastructure_repository)/$(env_folder) && terraform taint $(resource_dbdump) && $(MAKE) terraform_apply
-
+	cd $(env_folder) && terraform taint $(resource_dbdump)
+	$(MAKE) terraform_apply
 
 .NOTPARALLEL:

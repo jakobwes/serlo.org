@@ -40,23 +40,28 @@ module "local_mysql" {
 }
 
 module "athene2_dbsetup" {
-  source                    = "./../modules/athene2_dbsetup"
-  namespace                 = kubernetes_namespace.athene2_namespace.metadata.0.name
-  database_username_default = "root"
-  database_password_default = "admin"
-  database_host             = "mysql.athene2"
-  image_pull_policy         = "Never"
-  gcloud_bucket_url         = ""
-  feature_minikube          = true
+  source                      = "./../modules/athene2_dbsetup"
+  namespace                   = kubernetes_namespace.athene2_namespace.metadata.0.name
+  database_username_default   = "root"
+  database_password_default   = "admin"
+  database_host               = "mysql.athene2"
+  image_pull_policy           = "Never"
+  gcloud_bucket_url           = ""
+  feature_minikube            = true
+  gcloud_service_account_name = ""
+  gcloud_service_account_key  = ""
 }
 
 module "athene2_dbdump" {
-  source                     = "./../modules/athene2_dbdump"
-  namespace                  = kubernetes_namespace.athene2_namespace.metadata.0.name
-  database_username_readonly = "root"
-  database_password_readonly = "admin"
-  database_host              = "mysql.athene2"
-  image_pull_policy          = "Never"
+  source                      = "./../modules/athene2_dbdump"
+  namespace                   = kubernetes_namespace.athene2_namespace.metadata.0.name
+  database_username_readonly  = "root"
+  database_password_readonly  = "admin"
+  database_host               = "mysql.athene2"
+  image_pull_policy           = "Never"
+  gcloud_service_account_name = ""
+  gcloud_service_account_key  = ""
+
 }
 
 #####################################################################

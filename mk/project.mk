@@ -1,6 +1,6 @@
+ifeq ($(env_name),minikube)
 .PHONY: project_deploy
 # deploy the project to an already running cluster
-ifeq ($(env_name),minikube)
 project_deploy: docker_minikube_setup terraform_apply project_launch
 
 .PHONY: project_create
@@ -12,9 +12,11 @@ project_create: minikube_create project_deploy
 # initialize a minikube cluster and deploy this project,
 # all in one target.
 project_start: minikube_start project_launch
-
-project_deploy: terraform_apply project_launch
 endif
+
+.PHONY: project_deploy
+# deploy the project to an already running cluster
+project_deploy: terraform_apply project_launch
 
 .PHONY: project_launch
 # launch the athene2 web site
